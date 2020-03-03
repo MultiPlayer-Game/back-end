@@ -7,7 +7,10 @@ from django.contrib.auth.models import User
 from .models import *
 from rest_framework.decorators import api_view
 import json
-# from util.sample_generator import World
+from util.sample_generator import World
+from django.http import HttpResponse
+from django.core import serializers
+from django.core.serializers import serialize
 # w = World()
 # num_rooms = 100
 # width = 10
@@ -20,6 +23,17 @@ all_rooms = {}
 with open('adventure/static/rooms.json') as f:
     all_rooms = json.load(f)    
 
+
+@csrf_exempt
+@api_view(['POST'])
+def pusher_auth(request):
+    print(request)
+    auth = pusher.authenticate(
+        channel=request.form['presence-main-channel'],
+        socket_id=request.form['socket_id']
+    )
+    return json.dumps(auth)
+
 # instantiate pusher
 pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 @csrf_exempt
@@ -30,8 +44,22 @@ def initialize(request):
     player_id = player.id
     uuid = player.uuid
     room = player.room()
+    exists_rooms = Room.objects.filter(exists=room.exists)#selecting a subset
+    exists_map = {
+    "sewer": room.exists,
+    "rooms": [{
+        'id': i.id,
+        'x': i.x,
+        'y': i.y,
+        'n_to': i.n_to,
+        's_to': i.s_to,
+        'e_to': i.e_to,
+        'w_to': i.w_to,
+        } for i in exists_rooms]
+    }
     players = room.playerNames(player_id)
-    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
+    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'exists_map': exists_map}, safe=True)
+
 # @csrf_exempt
 @api_view(["POST"])
 def move(request):
@@ -103,22 +131,29 @@ def getallrooms(request):
         
     return JsonResponse({"rooms": rooms}, safe=True, status=200)
 
+
 @csrf_exempt
 @api_view(["GET"])
 def getroom(request):
     print(request.body)
     room = Room.objects.get(id=json.loads(request.body)['id'])
     return JsonResponse({'id': room.id, 'n_to': room.n_to,'s_to': room.s_to, 'e_to': room.e_to, 'w_to': room.w_to, 'x': room.x, 'y': room.y}, safe=True,status=200)
-# @api_view(["GET"])
-# def make_grid(request):
-#     try:
-#         Room.objects.all().delete()
-#     except:
-#         pass
-#     map = World()
-#     map.generate_rooms(11, 11, 100)
-#     players=Player.objects.all()
-#     for p in players:
-#         p.currentRoom=1
-#         p.save()
-#     return JsonResponse({"rooms": list(Room.objects.values())})
+
+
+@api_view(["GET"])
+def make_grid(request):
+    Room.objects.create(title = "A Generic Room", description = "This is a generic room.", n_to = 0, s_to = 0, e_to = 0, w_to = 0)
+    data = serializers.serialize('json',Room.objects.get())
+    return JsonResponse(data, safe=False)
+    try:
+        Room.objects.all().delete()
+    except:
+        pass
+    map = World()
+    map.generate_rooms(11, 11, 100)
+    players=Player.objects.all()
+    for p in players:
+        p.currentRoom=1
+        p.save()
+    Room.objects.all()
+    return JsonResponse({"rooms": list(Room.objects.values())})

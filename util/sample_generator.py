@@ -41,7 +41,7 @@ class World:
         self.grid = None
         self.width = 0
         self.height = 0
-    def generate_rooms(self, size_x, size_y, num_rooms):
+    def generate_rooms(self, size_x, size_y, num_rooms): #10, #10, #100 passed in below in sample
         '''
         Fill up the grid, bottom to top, in a zig-zag pattern
         '''
@@ -82,6 +82,7 @@ class World:
             # Create a room in the given direction
             room = Room(room_count, "A Generic Room", "This is a generic room.", x, y)
             # Note that in Django, you'll need to save the room after you create it
+            
 
             # Save the room in the World grid
             self.grid[y][x] = room
@@ -152,12 +153,12 @@ class World:
 
 
 w = World()
-num_rooms = 100
-width = 10
-height = 10
+num_rooms = 144
+width = 12
+height = 12
 w.generate_rooms(width, height, num_rooms)
 w.print_rooms()
 
 
 
-print(f"\n\nWorld\n  height: {height}\n  width: {width},\n  num_rooms: {num_rooms}\n")
+# print(f"\n\nWorld\n  height: {height}\n  width: {width},\n  num_rooms: {num_rooms}\n")
