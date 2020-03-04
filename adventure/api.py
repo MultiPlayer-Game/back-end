@@ -46,7 +46,7 @@ def initialize(request):
     room = player.room()
     exists_rooms = Room.objects.filter(exists=room.exists)#selecting a subset
     exists_map = {
-    "sewer": room.exists,
+    "room_exists": room.exists,
     "rooms": [{
         'id': i.id,
         'x': i.x,
