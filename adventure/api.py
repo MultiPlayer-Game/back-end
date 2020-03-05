@@ -7,7 +7,8 @@ from django.contrib.auth.models import User
 from .models import *
 from rest_framework.decorators import api_view
 import json
-from util.sample_generator import World
+# from util.sample_generator import World
+from util.lily_generator import World
 from django.http import HttpResponse
 from django.core import serializers
 from django.core.serializers import serialize
@@ -38,27 +39,36 @@ def pusher_auth(request):
 pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
 @csrf_exempt
 @api_view(["GET"])
+# def initialize(request):
+#     user = request.user
+#     player = user.player
+#     player_id = player.id
+#     uuid = player.uuid
+#     room = player.room()
+#     exists_rooms = Room.objects.filter(exists=room.exists)#selecting a subset
+#     exists_map = {
+#     "room_exists": room.exists,
+#     "rooms": [{
+#         'id': i.id,
+#         'x': i.x,
+#         'y': i.y,
+#         'n_to': i.n_to,
+#         's_to': i.s_to,
+#         'e_to': i.e_to,
+#         'w_to': i.w_to,
+#         } for i in exists_rooms]
+#     }
+#     players = room.playerNames(player_id)
+#     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'exists_map': exists_map}, safe=True)
+
 def initialize(request):
     user = request.user
     player = user.player
     player_id = player.id
     uuid = player.uuid
     room = player.room()
-    exists_rooms = Room.objects.filter(exists=room.exists)#selecting a subset
-    exists_map = {
-    "room_exists": room.exists,
-    "rooms": [{
-        'id': i.id,
-        'x': i.x,
-        'y': i.y,
-        'n_to': i.n_to,
-        's_to': i.s_to,
-        'e_to': i.e_to,
-        'w_to': i.w_to,
-        } for i in exists_rooms]
-    }
     players = room.playerNames(player_id)
-    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'exists_map': exists_map}, safe=True)
+    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
 # @csrf_exempt
 @api_view(["POST"])
