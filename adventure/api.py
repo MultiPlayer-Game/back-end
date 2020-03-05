@@ -8,7 +8,7 @@ from .models import *
 from rest_framework.decorators import api_view
 import json
 # from util.sample_generator import World
-from util.lily_generator import World
+# from util.generator_latest_0305 import World
 from django.http import HttpResponse
 from django.core import serializers
 from django.core.serializers import serialize
@@ -152,18 +152,18 @@ def getroom(request):
 
 @api_view(["GET"])
 def make_grid(request):
-    Room.objects.create(title = "A Generic Room", description = "This is a generic room.", n_to = 0, s_to = 0, e_to = 0, w_to = 0)
-    data = serializers.serialize('json',Room.objects.get())
-    return JsonResponse(data, safe=False)
-    try:
-        Room.objects.all().delete()
-    except:
-        pass
-    map = World()
-    map.generate_rooms(11, 11, 100)
-    players=Player.objects.all()
-    for p in players:
-        p.currentRoom=1
-        p.save()
-    Room.objects.all()
-    return JsonResponse({"rooms": list(Room.objects.values())})
+    # Room.objects.create(title = "A Generic Room", description = "This is a generic room.", n_to = 0, s_to = 0, e_to = 0, w_to = 0)
+    # data = serializers.serialize('json',Room.objects.get())
+    # return JsonResponse(data, safe=False)
+    # try:
+    #     Room.objects.all().delete()
+    # except:
+    #     pass
+    # map = World()
+    # map.generate_rooms(11, 11, 100)
+    # players=Player.objects.all()
+    # for p in players:
+    #     p.currentRoom=1
+    #     p.save()
+    rooms = Room.objects.all().values()
+    return JsonResponse({"rooms": list(rooms)})

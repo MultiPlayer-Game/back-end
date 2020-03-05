@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from adventure.models import Player, Room
 
 
-# # Room.objects.all().delete()
+Room.objects.all().delete()
 
 # r_outside = Room(title="Outside Cave Entrance",
 #                description="North of you, the cave mount beckons")
@@ -90,7 +90,7 @@ class Room:
         return getattr(self, f"{direction}_to")
 
 
-class World(Room):
+class World():
     def __init__(self):
         self.grid = None
         self.width = 0
@@ -99,27 +99,21 @@ class World(Room):
         '''
         Fill up the grid, bottom to top, in a zig-zag pattern
         '''
-
         # Initialize the grid
         self.grid = [None] * size_y
         self.width = size_x
         self.height = size_y
         for i in range( len(self.grid) ):
             self.grid[i] = [None] * size_x
-
         # Start from lower-left corner (0,0)
         x = -1 # (this will become 0 on the first step)
         y = 0
         room_count = 0
-
         # Start generating rooms to the east
         direction = 1  # 1: east, -1: west
-
-
         # While there are rooms to be created...
         previous_room = None
         while room_count < num_rooms:
-
             # Calculate the direction of the room to be created
             if direction > 0 and x < size_x - 1: #keep on going right 
                 room_direction = "e"
@@ -132,24 +126,20 @@ class World(Room):
                 room_direction = "n" # can't go right anymore
                 y += 1
                 direction *= -1 #multiply by -1
-
             # Create a room in the given direction
             # room = Room(room_count, "A Generic Room", "This is a generic room.", x, y)
             # Note that in Django, you'll need to save the room after you create it
             room = Room.objects.create(title = "A Generic Room", description = "This is a generic room.", n_to = 0, s_to = 0, e_to = 0, w_to = 0)
             room.save()
-            print(room.name)
+            # print(room.title)
             # Save the room in the World grid
             self.grid[y][x] = room
-
             # Connect the new room to the previous room
             if previous_room is not None:
-                previous_room.connect_rooms(room, room_direction)
-
+                previous_room.connectRooms(room, room_direction)
             # Update iteration variables
             previous_room = room
             room_count += 1
-
 
 
     def print_rooms(self):
