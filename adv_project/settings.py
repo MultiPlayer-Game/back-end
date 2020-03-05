@@ -67,12 +67,12 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
-MIDDLEWARE_CLASSES = (
-    'adventure.CorsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.BrokenLinkEmailsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-)
+# MIDDLEWARE_CLASSES = (
+#     'adventure.CorsMiddleware',
+#     'corsheaders.middleware.CorsMiddleware',
+#     'django.middleware.common.BrokenLinkEmailsMiddleware',
+#     'django.middleware.common.CommonMiddleware',
+# )
 
 ROOT_URLCONF = 'adv_project.urls'
 
