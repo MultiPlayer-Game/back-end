@@ -1,5 +1,3 @@
-![MUD 1](img/dungeongame.gif)
-
 ![MUD 2](img/MUD.PNG)
 
 ### Instructions to run existing files:
@@ -288,3 +286,6 @@ Navigate to the mud folder in front-end repo
 yarn install
 yarn start
 ```
+
+Navigating between the rooms:
+![MUD 1](img/dungeongame.gif)
