@@ -1,4 +1,8 @@
-### Instructions to run existing files from Lambda
+![MUD 1](img/dungeongame.gif)
+
+![MUD 2](img/MUD.png)
+
+### Instructions to run existing files:
 
 Set up virtual environment:
 ```
