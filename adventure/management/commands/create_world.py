@@ -46,9 +46,7 @@ class Command(BaseCommand):
                         y += 1
                         direction *= -1 #multiply by -1
                     # Create a room in the given direction
-                    rand_rooms = ["Lost Treasure Chamber","Spider-ridden Porch", "Dimly Lit Den", "Masut's Lost Tomb"]
-                    rand_descp = ["Chamber of Long Lost Secrets","Grand View Overlooking Steep Cliff", "Torch-Lit, Gas Powered Corner", "The Masut Mummy in its Coffin"]
-                    room = Room.objects.create(title = random.choice(rand_rooms), description = random.choice(rand_descp), n_to = 0, s_to = 0, e_to = 0, w_to = 0, x=x, y=y)
+                    room = Room.objects.create(title = "Chamber of Long Lost Secrets", description = "The Masut Mummy in its Coffin", n_to = 0, s_to = 0, e_to = 0, w_to = 0, x=x, y=y)
                     room.save()
                     # Save the room in the World grid
                     self.grid[y][x] = room
