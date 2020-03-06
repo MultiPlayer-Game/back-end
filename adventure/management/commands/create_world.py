@@ -34,6 +34,9 @@ class Command(BaseCommand):
                     if direction > 0 and x < size_x - 1: #keep on going right 
                         room_direction = "e"
                         x += 1
+                        rand_result = random.uniform(0,1)
+                        if rand_result == 1:
+                            y += 1
                     elif direction < 0 and x > 0: 
                         room_direction = "w" # once we have gone all the way to the right, we go to the left
                         x -= 1
@@ -43,11 +46,10 @@ class Command(BaseCommand):
                         y += 1
                         direction *= -1 #multiply by -1
                     # Create a room in the given direction
-                    # room = Room(room_count, "A Generic Room", "This is a generic room.", x, y)
-                    # Note that in Django, you'll need to save the room after you create it
-                    room = Room.objects.create(title = "A Generic Room", description = "This is a generic room.", n_to = 0, s_to = 0, e_to = 0, w_to = 0, x=x, y=y)
+                    rand_rooms = ["Lost Treasure Chamber","Spider-ridden Porch", "Dimly Lit Den", "Masut's Lost Tomb"]
+                    rand_descp = ["Chamber of Long Lost Secrets","Grand View Overlooking Steep Cliff", "Torch-Lit, Gas Powered Corner", "The Masut Mummy in its Coffin"]
+                    room = Room.objects.create(title = random.choice(rand_rooms), description = random.choice(rand_descp), n_to = 0, s_to = 0, e_to = 0, w_to = 0, x=x, y=y)
                     room.save()
-                    # print(room.title)
                     # Save the room in the World grid
                     self.grid[y][x] = room
                     # Connect the new room to the previous room
@@ -63,6 +65,17 @@ class Command(BaseCommand):
             num_rooms = 144
             width = 12
             height = 12
+            w.generate_rooms(width, height, num_rooms)
+        except:
+            raise CommandError("command doesn't work")
+
+
+        try: 
+            Room.objects.all().delete()
+            w = World()
+            num_rooms = 36
+            width = 6
+            height = 6
             w.generate_rooms(width, height, num_rooms)
         except:
             raise CommandError("command doesn't work")
