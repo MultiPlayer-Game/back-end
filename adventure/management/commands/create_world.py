@@ -58,7 +58,7 @@ class Command(BaseCommand):
                     room_count += 1
 
         try: 
-            # Room.objects.all().delete()
+            Room.objects.all().delete()
             w = World()
             num_rooms = 144
             width = 12
