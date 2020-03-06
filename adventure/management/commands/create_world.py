@@ -62,17 +62,6 @@ class Command(BaseCommand):
         try: 
             Room.objects.all().delete()
             w = World()
-            num_rooms = 144
-            width = 12
-            height = 12
-            w.generate_rooms(width, height, num_rooms)
-        except:
-            raise CommandError("command doesn't work")
-
-
-        try: 
-            Room.objects.all().delete()
-            w = World()
             num_rooms = 36
             width = 6
             height = 6
