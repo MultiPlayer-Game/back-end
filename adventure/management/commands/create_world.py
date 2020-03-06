@@ -6,6 +6,7 @@ from adventure.models import Room
 class Command(BaseCommand):
     def handle(self, *argv, **kwargs):
 
+        Room.objects.all().delete()
         class World():
             def __init__(self):
                 self.grid = None

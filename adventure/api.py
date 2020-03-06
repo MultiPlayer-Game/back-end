@@ -165,5 +165,5 @@ def make_grid(request):
     # for p in players:
     #     p.currentRoom=1
     #     p.save()
-    rooms = Room.objects.all().values()
+    rooms = Room.objects.all().values
     return JsonResponse({"rooms": list(rooms)})
