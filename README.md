@@ -287,5 +287,5 @@ yarn install
 yarn start
 ```
 
-Navigating between the rooms:
+
 ![MUD 1](img/dungeongame.gif)
