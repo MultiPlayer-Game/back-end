@@ -34,9 +34,9 @@ class Command(BaseCommand):
                     if direction > 0 and x < size_x - 1: #keep on going right 
                         room_direction = "e"
                         x += 1
-                        rand_result = random.uniform(0,1)
-                        if rand_result == 1:
-                            y += 1
+                        # rand_result = random.uniform(0,1)
+                        # if rand_result == 1:
+                        #     y += 1
                     elif direction < 0 and x > 0: 
                         room_direction = "w" # once we have gone all the way to the right, we go to the left
                         x -= 1
