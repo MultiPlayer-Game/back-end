@@ -1,6 +1,6 @@
 ![MUD 1](img/dungeongame.gif)
 
-![MUD 2](img/MUD.png)
+![MUD 2](img/MUD.PNG)
 
 ### Instructions to run existing files:
 
