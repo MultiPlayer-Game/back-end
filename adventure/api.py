@@ -25,7 +25,7 @@ with open('adventure/static/rooms.json') as f:
     all_rooms = json.load(f)    
 
 
-@csrf_exempt
+# @csrf_exempt
 @api_view(['POST'])
 def pusher_auth(request):
     print(request)
@@ -165,5 +165,5 @@ def make_grid(request):
     # for p in players:
     #     p.currentRoom=1
     #     p.save()
-    rooms = Room.objects.all().values
+    rooms = Room.objects.all().values()
     return JsonResponse({"rooms": list(rooms)})

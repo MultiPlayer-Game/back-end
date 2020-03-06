@@ -196,7 +196,7 @@ class World():
         # Print string
         print(str)
 
-
+Room.objects.all().delete()
 w = World()
 num_rooms = 144
 width = 12
